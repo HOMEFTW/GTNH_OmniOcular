@@ -791,14 +791,12 @@
 			if(nbt['autoStock']==1) {return GREEN+'获得AE的全部力量！'}
 			if(nbt['autoStock']==0) {return GREE+'手动标记所需的物品'}
 		</line>
-		<line displayname="§6ME-自动拉取">
-			if(nbt['autoPull']==1) {return GREEN+'获得AE的全部力量！'}
-			if(nbt['autoPull']==0) {return GREE+'手动标记所需的流体'}
-		</line>
+
 		<line displayname="§6ME-其余面连接">
 			if(nbt['additionalConnection']==1) {return GREEN+'可以从别的面连接'}
 			if(nbt['additionalConnection']==0) {return GREEN+'不能从别的面连接'}
 		</line>
+
 		<line displayname="§6数据存储-物品">
 			if(nbt['mID']==2710&&nbt['cachedItems']!=undefined)
 			{
