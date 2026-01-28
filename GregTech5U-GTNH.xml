@@ -79,7 +79,7 @@
 	}
 	function standards(num) {
 		var prod = '', count = 0;
-		num = (num || 0).toString();
+		num = (Math.round(num || 0)).toString();
 		for (var i = num.length - 1; i >= 0; i--) {
 			count++;
 			prod = num.charAt(i) + prod;
@@ -264,8 +264,8 @@
 	}
 
 	function Percent(cent){
-		centi = Math.max(0, Math.min(100, cent));
-		centiOutput = "";
+		centi = Math.max(0, Math.min(100, Math.round(cent)));
+		centiOutput = "";S
 		if ((100/3)>centi){
 			centiOutput = RED + centi + GOLD +"%";
 		}else if((100/1.5)>centi){
