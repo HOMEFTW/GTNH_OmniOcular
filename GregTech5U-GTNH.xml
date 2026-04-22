@@ -657,10 +657,7 @@
 		</line>
 		<line displayname="§6锁定流体:">
 			if(nbt['mID']==32014 && nbt['mStorageCurrent']>0)
-			switch(nbt['isFluidLocked']){<line displayname="§6输出倍率">
-			if(nbt['mID']==9412 && nbt['mActive']==1){
-			return AQUA + nbt['outputMultiplier']
-			}
+			switch(nbt['isFluidLocked']){
 				case 0:return AQUA+'无';break;
 				case 1:return AQUA+fluidName(nbt['mLockedFluidName']);break;
 			}
