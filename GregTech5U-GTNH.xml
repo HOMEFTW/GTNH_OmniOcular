@@ -33,6 +33,10 @@
 		return nbt[key] != undefined ? nbt[key] : (nbt[fallbackKey] != undefined ? nbt[fallbackKey] : 0);
 	}
 
+	function maintenanceCompat(key, fallbackKey) {
+		return nbt[key] != undefined ? nbt[key] : (nbt[fallbackKey] != undefined ? nbt[fallbackKey] : 1);
+	}
+
 	function eutCompat() {
 		return nbtCompat('eLongEUPerTick', 'mEUt');
 	}
@@ -1368,7 +1372,7 @@
 		<!--多方块机器于未完全修复情况下的功率 -->
 		<line displayname="hud.msg.greg.power.unfix">
 		    if(nbt['mEUt']!=0) if(nbt['mEUt']!=undefined)
-			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || nbtCompat('mSoftMallet','mSoftHammer')==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0){return YELLOW+Math.abs(nbt['mEUt'])*1.1+GOLD+" EU/t"}
+			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || maintenanceCompat('mSoftMallet','mSoftHammer')==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0){return YELLOW+Math.abs(nbt['mEUt'])*1.1+GOLD+" EU/t"}
 		</line>	
 		
 		<!--蒸汽机器：功率 -->
@@ -1513,13 +1517,13 @@
 
 		<!--多方块机器需要维修  -->
 		<line displayname="§c注意 !">
-			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || nbtCompat('mSoftMallet','mSoftHammer')==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0 || nbt['eCertainS']>0){
+			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || maintenanceCompat('mSoftMallet','mSoftHammer')==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0 || nbt['eCertainS']>0){
 			return RED+"xx 需要维护 xx"}
 		</line>
 		<line displayname="§c注意 !">
 			if(nbt['mWrench']==0){return RED+"xx 需要扳手 xx"}
 			if(nbt['mScrewdriver']==0){return RED+"xx 需要螺丝刀 xx"}
-			if(nbtCompat('mSoftMallet','mSoftHammer')==0){return RED+"xx 需要软锤 xx"}
+			if(maintenanceCompat('mSoftMallet','mSoftHammer')==0){return RED+"xx 需要软锤 xx"}
 			if(nbt['mHardHammer']==0){return RED+"xx 需要锤子 xx"}
 			if(nbt['mHardHammer']==0){return RED+"xx 需要锤子 xx"}
 			if(nbt['mSolderingTool']==0){return RED+"xx 需要电烙铁 xx"}
