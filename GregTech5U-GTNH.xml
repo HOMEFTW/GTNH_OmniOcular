@@ -29,6 +29,14 @@
 		return Packages.gregtech.api.GregTechAPI.METATILEENTITIES[mID] instanceof Packages.gregtech.common.tileentities.machines.basic.MTECharger
 	}
 
+	function nbtCompat(key, fallbackKey) {
+		return nbt[key] != undefined ? nbt[key] : (nbt[fallbackKey] != undefined ? nbt[fallbackKey] : 0);
+	}
+
+	function eutCompat() {
+		return nbtCompat('eLongEUPerTick', 'mEUt');
+	}
+
 	function formatBytes(bytes) {
 		if (bytes === 0) return 0;
 		var k = 100000,
@@ -682,7 +690,7 @@
 		</line>
 
 		<line displayname="§b接口ID ">
-            if(nbt['eID']>=0 && nbt['mID']==15441){return GOLD+nbt['eID']}
+			if(nbt['eID']!=undefined && nbt['eID']>=0 && nbt['mID']==15441){return GOLD+nbt['eID']}
 		</line>
 		<line displayname="§b静音升级 ">
             if(nbt['mMuffler']==1){return GREEN+'憋叭叭了'}
@@ -1264,8 +1272,8 @@
 			if (nbt['mSolderingTool']!=0 && Math.abs(nbt['mEUt'])<=Math.pow(2,29)){
 				return GOLD+'('+GetVtier(Math.abs(nbt['mEUt']))+GOLD+')'
 			}
-			if (nbt['mSolderingTool']!=0 && nbt['mID']==1004 && nbt['eLongEUPerTick']<=Math.pow(2,29)){
-				return GOLD+'('+GetVtier(Math.abs(nbt['eLongEUPerTick']))+GOLD+')'
+			if (nbt['mSolderingTool']!=0 && nbt['mID']==1004 && eutCompat()<=Math.pow(2,29)){
+				return GOLD+'('+GetVtier(Math.abs(eutCompat()))+GOLD+')'
 			}
 			if (nbt['mSolderingTool']!=0 && nbt['costingWirelessEUTemp']!=undefined && Math.abs(nbt['costingWirelessEUTemp'])!=0 && Math.abs(nbt['costingWirelessEUTemp'])<=Math.pow(2,29)){
 				return GOLD+'('+GetVtier(Math.abs(nbt['costingWirelessEUTemp']))+GOLD+')'
@@ -1279,8 +1287,8 @@
 			if(nbt['mMaxProgresstime']!=0){
 				return GOLD+sci_format(nbt['mMaxProgresstime']*Math.abs(nbt['mEUt']))+GOLD+' EU'
 			}
-			if(nbt['mMaxProgresstime']!=0 && nbt['eLongEUPerTick']!=0 &&nbt['mID']==1004){
-				return GOLD+sci_format(nbt['mMaxProgresstime']*Math.abs(nbt['eLongEUPerTick']))+GOLD+' EU'
+			if(nbt['mMaxProgresstime']!=0 && eutCompat()!=0 &&nbt['mID']==1004){
+				return GOLD+sci_format(nbt['mMaxProgresstime']*Math.abs(eutCompat()))+GOLD+' EU'
 			}
 		</line>
 		
@@ -1298,11 +1306,11 @@
 			if (Math.abs(nbt['mEUt'])>=2147483640){
 				return YELLOW+standards((Math.abs(nbt['mEUt'])/2147483640).toFixed(0))+GOLD+' A '+colorcir('MAX',3,1)
 			}
-			if (Math.abs(nbt['eLongEUPerTick'])>=21474836 && Math.abs(nbt['eLongEUPerTick'])<2147483640){
-				return YELLOW+standards((Math.abs(nbt['eLongEUPerTick'])/2147483640).toFixed(0))+GOLD+' A '+colorcir('MAX',3)
+			if (Math.abs(eutCompat())>=21474836 && Math.abs(eutCompat())<2147483640){
+				return YELLOW+standards((Math.abs(eutCompat())/2147483640).toFixed(0))+GOLD+' A '+colorcir('MAX',3)
 			}
-			if (Math.abs(nbt['eLongEUPerTick'])>=2147483640){
-				return YELLOW+standards((Math.abs(nbt['eLongEUPerTick'])/2147483640).toFixed(0))+GOLD+' A '+colorcir('MAX',3,1)
+			if (Math.abs(eutCompat())>=2147483640){
+				return YELLOW+standards((Math.abs(eutCompat())/2147483640).toFixed(0))+GOLD+' A '+colorcir('MAX',3,1)
 			}
 		</line>
 		<line displayname="§b无线EU功耗">
@@ -1329,9 +1337,9 @@
 			{
 				return YELLOW+standards(Math.abs(nbt['mEUt']))+GOLD+" EU/t"
 			}
-			if(nbt['mSolderingTool']!=0 && Math.abs(nbt['eLongEUPerTick'])<=500000000)
+			if(nbt['mSolderingTool']!=0 && Math.abs(eutCompat())<=500000000)
 			{
-				return YELLOW+standards(Math.abs(nbt['eLongEUPerTick']))+GOLD+" EU/t"
+				return YELLOW+standards(Math.abs(eutCompat()))+GOLD+" EU/t"
 			}
 		</line>
 		<line displayname="§d§k6§r§d机器功率§k6§r">
@@ -1342,9 +1350,9 @@
 			{
 				return YELLOW+standards(Math.abs(nbt['mEUt']))+GOLD+" EU/t"
 			}
-			if(nbt['mSolderingTool']!=0 && Math.abs(nbt['eLongEUPerTick'])>500000000)
+			if(nbt['mSolderingTool']!=0 && Math.abs(eutCompat())>500000000)
 			{
-				return YELLOW+standards(Math.abs(nbt['eLongEUPerTick']))+GOLD+" EU/t"
+				return YELLOW+standards(Math.abs(eutCompat()))+GOLD+" EU/t"
 			}
 		</line>
 
@@ -1360,7 +1368,7 @@
 		<!--多方块机器于未完全修复情况下的功率 -->
 		<line displayname="hud.msg.greg.power.unfix">
 		    if(nbt['mEUt']!=0) if(nbt['mEUt']!=undefined)
-			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || nbt['mSoftHammer']==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0){return YELLOW+Math.abs(nbt['mEUt'])*1.1+GOLD+" EU/t"}
+			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || nbtCompat('mSoftMallet','mSoftHammer')==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0){return YELLOW+Math.abs(nbt['mEUt'])*1.1+GOLD+" EU/t"}
 		</line>	
 		
 		<!--蒸汽机器：功率 -->
@@ -1505,13 +1513,13 @@
 
 		<!--多方块机器需要维修  -->
 		<line displayname="§c注意 !">
-			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || nbt['mSoftHammer']==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0 || nbt['eCertainS']>0){
+			if(nbt['mWrench']==0 || nbt['mScrewdriver']==0 || nbtCompat('mSoftMallet','mSoftHammer')==0 || nbt['mHardHammer']==0 || nbt['mSolderingTool']==0 || nbt['mCrowbar']==0 || nbt['eCertainS']>0){
 			return RED+"xx 需要维护 xx"}
 		</line>
 		<line displayname="§c注意 !">
 			if(nbt['mWrench']==0){return RED+"xx 需要扳手 xx"}
 			if(nbt['mScrewdriver']==0){return RED+"xx 需要螺丝刀 xx"}
-			if(nbt['mSoftHammer']==0){return RED+"xx 需要软锤 xx"}
+			if(nbtCompat('mSoftMallet','mSoftHammer')==0){return RED+"xx 需要软锤 xx"}
 			if(nbt['mHardHammer']==0){return RED+"xx 需要锤子 xx"}
 			if(nbt['mHardHammer']==0){return RED+"xx 需要锤子 xx"}
 			if(nbt['mSolderingTool']==0){return RED+"xx 需要电烙铁 xx"}
